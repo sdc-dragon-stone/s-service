@@ -1,8 +1,8 @@
 {
-  "name": "",
+  "name": "more-homes-carousel",
   "version": "",
-  "description": "",
-  "author": "",
+  "description": "Carousel for Home Pictures/Description",
+  "author": "Alyssa Cipriano",
   "license": "",
   "engines": {
     "node": ">=6.13.0"
@@ -10,6 +10,9 @@
   "scripts": {},
   "dependencies": {},
   "devDependencies": {
-    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
+    "eslint": "^5.15.3",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "eslint-plugin-import": "^2.16.0"
   }
 }
