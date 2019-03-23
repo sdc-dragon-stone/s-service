@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SingleHome from './components/SingleHome.jsx';
 
-const name = 'Alyssa';
-const element = <h1> Hello, {name}</h1>;
-
-ReactDOM.render(element, document.getElementById('app'));
+ReactDOM.render(<SingleHome />, document.getElementById('app'));
