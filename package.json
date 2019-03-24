@@ -9,11 +9,16 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
+    "seedDb": "node database/index.js",
     "build": "webpack -d --watch"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "faker": "^4.1.0",
+    "mongodb": "^3.2.2",
+    "mongoose": "^5.4.19",
+    "mongoose-sequence": "^5.0.1",
     "react": "^16.8.5",
     "react-dom": "^16.8.5"
   },
