@@ -7,8 +7,8 @@ mongoose.connect('mongodb://localhost/morehomes', {useNewUrlParser: true});
 
 var homeSchema = new mongoose.Schema({
   _id: Number,
-  picture: String,
-  type: String,
+  pictureUrl: String,
+  typeOfHome: String,
   city: String,
   description: String,
   price: Number,
@@ -20,12 +20,12 @@ homeSchema.plugin(AutoIncrement);
 var Home = mongoose.model('Home', homeSchema);
 
 //the array of sample homes: sampleData.homes
-var saveHome = function(home) {
+var saveHome = function(homeUrl) {
   var newHome = new Home({
-    picture: home,
-    type: faker.random.words(3),
+    pictureUrl: homeUrl,
+    typeOfHome: `entire ${faker.lorem.word()}`,
     city: faker.address.city(),
-    description: `entire ${faker.lorem.word()}`,
+    description: faker.random.words(3),
     price: faker.random.number({min: 35, max: 150}),
     rating: `Stars: ${faker.random.number({min: 3.5, max: 5})}`,
     reviews: faker.random.number({min: 20, max: 50})
