@@ -35,7 +35,7 @@ npm seedDb (to seed the database)
 ```
 
 ## API Requests
-Description: GET request to '/morehomes'
+### Description: GET request to '/morehomes'
 Sample JSON output: array of objects
 Sample object:
 {
