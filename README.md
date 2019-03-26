@@ -37,15 +37,27 @@ npm seedDb (to seed the database)
 ## API Requests
 ### Description: GET request to '/morehomes'
 Sample JSON output: array of objects
+
 Sample object:
+
 {
+
   "_id" : 90,
+
   "picture" : "https://s3-us-west-1.amazonaws.com/mashbnb/63b5a1b7_original.jpg",
+
   "type" : "entire voluptatem",
+
   "city" : "Wardbury",
+
   "description" : "PCI calculating Route",
+
   "price" : 141,
+
   "rating" : "Stars: 4",
+
   "reviews" : 49,
+
   "__v" : 0
+
 }
