@@ -10,7 +10,8 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "seedDb": "node database/seedingDb.js",
-    "build": "webpack -d --watch"
+    "build": "webpack -d --watch",
+    "test": "mocha tests/backendTests.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
