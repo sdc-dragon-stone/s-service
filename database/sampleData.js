@@ -1,4 +1,4 @@
-var homes = [
+const homes = [
   'https://s3-us-west-1.amazonaws.com/mashbnb/007235ea-aaaf-4dc0-b733-845b92ed5509.jpg',
   'https://s3-us-west-1.amazonaws.com/mashbnb/0_F43HRv7o6nBpfaWF.jpeg',
   'https://s3-us-west-1.amazonaws.com/mashbnb/12477131-airbnb-paris.jpg',
