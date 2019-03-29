@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -65,7 +66,7 @@ describe('Seeding the database', () => {
 
   it('should save a document in the database using saveHome function', () => {
     Home.find((err, results) => {
-      should.exist(results[0]);
+      // should.exist(results[0]);
       results[0].should.be.an('object');
       results[0].should.have.property('pictureUrl');
       results[0].should.have.property('typeOfHome');
