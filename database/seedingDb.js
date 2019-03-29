@@ -1,9 +1,10 @@
 const sampleData = require('./sampleData.js');
-const seed = require('./index.js');
+const db = require('./index.js');
 
 function seedDb() {
-  sampleData.homes.forEach((singleHome) => {
-    seed.saveHome(singleHome);
+  sampleData.homes.forEach((singleHomeUrl) => {
+    const oneHome = db.assignUrl(singleHomeUrl);
+    db.saveHome(oneHome);
   });
 }
 
