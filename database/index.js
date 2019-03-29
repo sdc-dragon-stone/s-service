@@ -31,7 +31,10 @@ function saveHome(homeUrl) {
     reviews: faker.random.number({ min: 20, max: 50 })
   });
 
-  newHome.save();
+  newHome.save((err) => {
+    if (err) console.error(err);
+    console.log('Saved in DB');
+  });
 }
 
 module.exports = {

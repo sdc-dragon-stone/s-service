@@ -39,7 +39,10 @@ function saveHome(homeUrl) {
     reviews: faker.random.number({ min: 20, max: 50 })
   });
 
-  newHome.save();
+  newHome.save((err) => {
+    if (err) console.error(err);
+    console.log('Saved in DB');
+  });
 }
 
 describe('GET request to /', () => {
@@ -67,6 +70,7 @@ describe('Seeding the database', () => {
   it('should save a document in the database using saveHome function', () => {
     Home.find((err, results) => {
       // should.exist(results[0]);
+      console.log('RESULTS', results);
       results[0].should.be.an('object');
       results[0].should.have.property('pictureUrl');
       results[0].should.have.property('typeOfHome');
