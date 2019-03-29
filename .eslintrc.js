@@ -15,6 +15,6 @@ module.exports = {
     'comma-dangle': 'off',
     'class-methods-use-this': 'off',
     'no-undef': 'off',
-    'import/extensions': 'always'
+    'import/extensions': 'always',
   }
 };
