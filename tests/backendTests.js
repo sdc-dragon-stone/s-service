@@ -1,19 +1,105 @@
-var assert = require('chai').assert;
-var chai = require('chai');
-// var chaiHttp = require('chai-http');
-var expect = require('chai').expect;
-var should = require('chai').should();
+/* eslint-disable no-unused-vars */
+/* eslint-disable array-callback-return */
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const should = require('chai').should();
 
-// chai.use(chaiHttp);
-// var server = require('../server/index.js');
-var database = require('../database/seedingDb.js');
+chai.use(chaiHttp);
 
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/morehomes', {useNewUrlParser: true});
+const mongoose = require('mongoose');
+const faker = require('faker');
+// const AutoIncrement = require('mongoose-sequence')(mongoose);
+const server = require('../server/index.js');
+const db = require('../database/index.js');
 
-describe('Seeding data into database', function () {
-  it('should populate database', function () {
-    var boo = 'hi';
-    assert.typeOf(boo, 'string');
+mongoose.connect('mongodb://localhost/node-test', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
+
+const sampleSchema = new mongoose.Schema({
+//   _id: Number,
+//   pictureUrl: String,
+//   typeOfHome: String,
+//   city: String,
+//   description: String,
+//   price: Number,
+//   rating: String,
+//   reviews: Number
+// }, { _id: false });
+  pictureUrl: String,
+  typeOfHome: String,
+  city: String,
+  description: String,
+  price: Number,
+  rating: String,
+  reviews: Number
+});
+
+// homeSchema.plugin(AutoIncrement);
+
+const ModelSample = mongoose.model('ModelSample', sampleSchema);
+
+const sampleHome = new ModelSample({
+  pictureUrl: 'https://samplepic.com',
+  typeOfHome: `entire ${faker.lorem.word()}`,
+  city: faker.address.city(),
+  description: faker.random.words(3),
+  price: faker.random.number({ min: 35, max: 150 }),
+  rating: `Stars: ${faker.random.number({ min: 3.5, max: 5 })}`,
+  reviews: faker.random.number({ min: 20, max: 50 })
+});
+
+// function saveHome(homeUrl) {
+//   const newHome = new Home({
+//     pictureUrl: homeUrl,
+//     typeOfHome: `entire ${faker.lorem.word()}`,
+//     city: faker.address.city(),
+//     description: faker.random.words(3),
+//     price: faker.random.number({ min: 35, max: 150 }),
+//     rating: `Stars: ${faker.random.number({ min: 3.5, max: 5 })}`,
+//     reviews: faker.random.number({ min: 20, max: 50 })
+//   });
+
+//   newHome.save((err) => {
+//     if (err) console.error(err);
+//     console.log('Saved in DB');
+//   });
+// }
+
+describe('GET request to /', () => {
+  it('should return response status code 200', (done) => {
+    chai.request(server)
+      .get('/')
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
   });
+});
+
+describe('Seeding the database', () => {
+  before(() => {
+    db.saveHome(sampleHome);
+  });
+
+  it('should save a document in the database using saveHome function', () => {
+    ModelSample.find((err, results) => {
+      console.log('RESULTS', results);
+      should.exist(results[0]);
+      results[0].should.be.an('object');
+      results[0].should.have.property('pictureUrl');
+      results[0].should.have.property('typeOfHome');
+      results[0].should.have.property('city');
+      results[0].should.have.property('description');
+      results[0].should.have.property('price');
+      results[0].should.have.property('rating');
+      results[0].should.have.property('reviews');
+      mongoose.connection.db.dropDatabase();
+    });
+  });
+
+  // after(() => {
+  //   // mongoose.connection.on('open', () => {
+  //   //   mongoose.connection.db.dropDatabase();
+  //   // });
+  //   mongoose.connection.db.dropDatabase();
+  // });
 });
