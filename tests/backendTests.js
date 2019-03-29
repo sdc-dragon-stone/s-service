@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const faker = require('faker');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const server = require('../server/index.js');
+// const save = require('../database/index.js');
 
 mongoose.connect('mongodb://localhost/node-test', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 
