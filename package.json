@@ -11,7 +11,7 @@
     "start": "nodemon server/index.js",
     "seedDb": "node database/seedingDb.js",
     "build": "webpack -d --watch",
-    "test": "mocha tests/backendTests.js --exit"
+    "test": "mocha --exit tests/backendTests.js "
   },
   "dependencies": {
     "body-parser": "^1.18.3",
