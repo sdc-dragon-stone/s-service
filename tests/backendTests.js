@@ -58,7 +58,9 @@ describe('Seeding the database', () => {
   });
 
   afterEach(() => {
-    mongoose.connection.db.dropDatabase();
+    mongoose.connection.on('open', () => {
+      mongoose.connection.db.dropDatabase();
+    });
   });
 
   it('should save a document in the database using saveHome function', () => {
