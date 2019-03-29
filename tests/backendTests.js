@@ -57,11 +57,11 @@ describe('Seeding the database', () => {
     saveHome('https://samplepic.com');
   });
 
-  afterEach(() => {
-    mongoose.connection.on('open', () => {
-      mongoose.connection.db.dropDatabase();
-    });
-  });
+  // afterEach(() => {
+  //   mongoose.connection.on('open', () => {
+  //     mongoose.connection.db.dropDatabase();
+  //   });
+  // });
 
   it('should save a document in the database using saveHome function', () => {
     Home.find((err, results) => {
