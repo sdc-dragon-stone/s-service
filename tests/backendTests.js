@@ -12,7 +12,7 @@ const faker = require('faker');
 const server = require('../server/index.js');
 const db = require('../database/index.js');
 
-mongoose.connect('mongodb://localhost/node-test', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
+// mongoose.connect('mongodb://localhost/node-test', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 
 const sampleSchema = new mongoose.Schema({
 //   _id: Number,
@@ -92,7 +92,7 @@ describe('Seeding the database', () => {
       results[0].should.have.property('price');
       results[0].should.have.property('rating');
       results[0].should.have.property('reviews');
-      mongoose.connection.db.dropDatabase();
+      // mongoose.connection.db.dropDatabase();
     });
   });
 
