@@ -42,17 +42,19 @@ describe('Seeding the database', () => {
   });
 
   it('should save a document in the database using saveHome function', () => {
-    ModelSample.find((err, results) => {
-      console.log('RESULTS', results);
-      should.exist(results[0]);
-      results[0].should.be.an('object');
-      results[0].should.have.property('pictureUrl');
-      results[0].should.have.property('typeOfHome');
-      results[0].should.have.property('city');
-      results[0].should.have.property('description');
-      results[0].should.have.property('price');
-      results[0].should.have.property('rating');
-      results[0].should.have.property('reviews');
-    });
+    setTimeout(() => {
+      ModelSample.find((err, results) => {
+        console.log('RESULTS', results);
+        should.exist(results[0]);
+        results[0].should.be.an('object');
+        results[0].should.have.property('pictureUrl');
+        results[0].should.have.property('typeOfHome');
+        results[0].should.have.property('city');
+        results[0].should.have.property('description');
+        results[0].should.have.property('price');
+        results[0].should.have.property('rating');
+        results[0].should.have.property('reviews');
+      });
+    }, 1000);
   });
 });
