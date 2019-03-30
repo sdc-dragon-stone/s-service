@@ -14,8 +14,16 @@ const db = require('../database/index.js');
 
 // mongoose.connect('mongodb://localhost/node-test', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 
-const sampleSchema = new mongoose.Schema({
-//   _id: Number,
+// const sampleSchema = new mongoose.Schema({
+// //   _id: Number,
+// //   pictureUrl: String,
+// //   typeOfHome: String,
+// //   city: String,
+// //   description: String,
+// //   price: Number,
+// //   rating: String,
+// //   reviews: Number
+// // }, { _id: false });
 //   pictureUrl: String,
 //   typeOfHome: String,
 //   city: String,
@@ -23,19 +31,11 @@ const sampleSchema = new mongoose.Schema({
 //   price: Number,
 //   rating: String,
 //   reviews: Number
-// }, { _id: false });
-  pictureUrl: String,
-  typeOfHome: String,
-  city: String,
-  description: String,
-  price: Number,
-  rating: String,
-  reviews: Number
-});
+// });
 
 // homeSchema.plugin(AutoIncrement);
 
-const ModelSample = mongoose.model('ModelSample', sampleSchema);
+const ModelSample = mongoose.model('ModelSample', db.homeSchema);
 
 const sampleHome = new ModelSample({
   pictureUrl: 'https://samplepic.com',
@@ -77,6 +77,7 @@ describe('GET request to /', () => {
 
 describe('Seeding the database', () => {
   before(() => {
+    console.log('SAVEHOME', db.saveHome);
     db.saveHome(sampleHome);
   });
 
