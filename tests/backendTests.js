@@ -54,7 +54,8 @@ describe('Seeding the database', () => {
         results[0].should.have.property('price');
         results[0].should.have.property('rating');
         results[0].should.have.property('reviews');
-        mongoose.connection.close();
+        // mongoose.connection.close();
+        mongoose.disconnect();
       });
     }, 1000);
   });
