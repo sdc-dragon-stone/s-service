@@ -3,7 +3,3 @@ node_js:
   - "10"
 services:
   - mongodb
-before_script:
- - npm run seedDb
-script:
- - npm run testBackend

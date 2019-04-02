@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const faker = require('faker');
 const server = require('../server/index.js');
 const db = require('../database/index.js');
+const seedDb = require('../database/seedingDb.js');
 
 mongoose.connect('mongodb://localhost/morehomes', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 
@@ -37,6 +38,9 @@ describe('GET request to /', () => {
 });
 
 describe('GET request to /allhomes', () => {
+  before(() => {
+    seedDb();
+  });
   it('should return all homes from the database', (done) => {
     chai.request(server)
       .get('/allhomes')
@@ -56,6 +60,9 @@ describe('GET request to /allhomes', () => {
 });
 
 describe('GET request to /morehomes', () => {
+  before(() => {
+    seedDb();
+  });
   it('should return homes', (done) => {
     chai.request(server)
       .get('/morehomes')

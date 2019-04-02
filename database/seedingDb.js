@@ -9,3 +9,5 @@ function seedDb() {
 }
 
 seedDb();
+
+module.exports = seedDb;
