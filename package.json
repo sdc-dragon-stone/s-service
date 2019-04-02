@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
-    "seedDb": "node database/seedingDb.js",
+    "seedDb": "node database/seedingDb.js --exit",
     "build": "webpack -d --watch",
     "testBackend": "mocha tests/backendTests.js --exit"
   },
