@@ -56,7 +56,7 @@ describe('GET request to /allhomes', () => {
 });
 
 describe('GET request to /morehomes', () => {
-  it('should return 12 homes', (done) => {
+  it('should return homes', (done) => {
     chai.request(server)
       .get('/morehomes')
       .end((err, res) => {
@@ -69,7 +69,6 @@ describe('GET request to /morehomes', () => {
         res.body[0].should.have.property('price');
         res.body[0].should.have.property('rating');
         res.body[0].should.have.property('reviews');
-        res.body.length.should.equal(12);
         done();
       });
   });
@@ -93,8 +92,6 @@ describe('Seeding the database', () => {
         results[0].should.have.property('price');
         results[0].should.have.property('rating');
         results[0].should.have.property('reviews');
-        // mongoose.connection.close();
-        // mongoose.disconnect();
       });
     }, 1000);
   });
