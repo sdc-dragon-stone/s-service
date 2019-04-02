@@ -63,7 +63,7 @@ describe('GET request to /morehomes', () => {
   before(() => {
     seedDb();
   });
-  it('should return homes', (done) => {
+  it('should return 12 homes from the database', (done) => {
     chai.request(server)
       .get('/morehomes')
       .end((err, res) => {
@@ -76,6 +76,7 @@ describe('GET request to /morehomes', () => {
         res.body[0].should.have.property('price');
         res.body[0].should.have.property('rating');
         res.body[0].should.have.property('reviews');
+        res.body.length.should.equal(12);
         done();
       });
   });

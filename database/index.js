@@ -36,7 +36,6 @@ function assignUrl(homeUrl) {
 function saveHome(oneHome) {
   oneHome.save((err) => {
     if (err) console.error(err);
-    console.log('Saved in DB');
   });
 }
 
