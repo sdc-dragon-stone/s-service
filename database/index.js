@@ -16,36 +16,8 @@ const homeSchema = new mongoose.Schema({
 }, { _id: false });
 
 homeSchema.plugin(AutoIncrement);
-// const homeSchema = new mongoose.Schema({
-//   pictureUrl: String,
-//   typeOfHome: String,
-//   city: String,
-//   description: String,
-//   price: Number,
-//   rating: String,
-//   reviews: Number
-// });
 
 const Home = mongoose.model('Home', homeSchema);
-
-// the array of sample homes: sampleData.homes
-// function saveHome(homeUrl) {
-//   const newHome = new Home({
-//     pictureUrl: homeUrl,
-//     typeOfHome: `entire ${faker.lorem.word()}`,
-//     city: faker.address.city(),
-//     description: faker.random.words(3),
-//     price: faker.random.number({ min: 35, max: 150 }),
-//     rating: `Stars: ${faker.random.number({ min: 3.5, max: 5 })}`,
-//     reviews: faker.random.number({ min: 20, max: 50 })
-//   });
-
-//   newHome.save((err) => {
-//     if (err) console.error(err);
-//     console.log('Saved in DB');
-//   });
-// }
-
 
 function assignUrl(homeUrl) {
   const newHome = new Home({
@@ -64,11 +36,22 @@ function assignUrl(homeUrl) {
 function saveHome(oneHome) {
   oneHome.save((err) => {
     if (err) console.error(err);
-    console.log('Saved in DB');
   });
 }
 
+// This is currently not in use, but leaving in for possible future use
+function readAll(callback) {
+  Home.find(callback);
+}
+
+function getOneHomeById(id, callback) {
+  Home.findById(id, callback);
+}
+
 module.exports = {
+  homeSchema,
+  assignUrl,
   saveHome,
-  assignUrl
+  readAll,
+  getOneHomeById
 };

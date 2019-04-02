@@ -8,34 +8,13 @@ chai.use(chaiHttp);
 
 const mongoose = require('mongoose');
 const faker = require('faker');
-// const AutoIncrement = require('mongoose-sequence')(mongoose);
 const server = require('../server/index.js');
 const db = require('../database/index.js');
+const seedDb = require('../database/seedingDb.js');
 
-mongoose.connect('mongodb://localhost/node-test', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
+mongoose.connect('mongodb://localhost/morehomes', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 
-const sampleSchema = new mongoose.Schema({
-//   _id: Number,
-//   pictureUrl: String,
-//   typeOfHome: String,
-//   city: String,
-//   description: String,
-//   price: Number,
-//   rating: String,
-//   reviews: Number
-// }, { _id: false });
-  pictureUrl: String,
-  typeOfHome: String,
-  city: String,
-  description: String,
-  price: Number,
-  rating: String,
-  reviews: Number
-});
-
-// homeSchema.plugin(AutoIncrement);
-
-const ModelSample = mongoose.model('ModelSample', sampleSchema);
+const ModelSample = mongoose.model('ModelSample', db.homeSchema);
 
 const sampleHome = new ModelSample({
   pictureUrl: 'https://samplepic.com',
@@ -46,23 +25,6 @@ const sampleHome = new ModelSample({
   rating: `Stars: ${faker.random.number({ min: 3.5, max: 5 })}`,
   reviews: faker.random.number({ min: 20, max: 50 })
 });
-
-// function saveHome(homeUrl) {
-//   const newHome = new Home({
-//     pictureUrl: homeUrl,
-//     typeOfHome: `entire ${faker.lorem.word()}`,
-//     city: faker.address.city(),
-//     description: faker.random.words(3),
-//     price: faker.random.number({ min: 35, max: 150 }),
-//     rating: `Stars: ${faker.random.number({ min: 3.5, max: 5 })}`,
-//     reviews: faker.random.number({ min: 20, max: 50 })
-//   });
-
-//   newHome.save((err) => {
-//     if (err) console.error(err);
-//     console.log('Saved in DB');
-//   });
-// }
 
 describe('GET request to /', () => {
   it('should return response status code 200', (done) => {
@@ -75,31 +37,70 @@ describe('GET request to /', () => {
   });
 });
 
+describe('GET request to /allhomes', () => {
+  before(() => {
+    seedDb();
+  });
+  it('should return all homes from the database', (done) => {
+    chai.request(server)
+      .get('/allhomes')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body[0].should.have.property('pictureUrl');
+        res.body[0].should.have.property('typeOfHome');
+        res.body[0].should.have.property('city');
+        res.body[0].should.have.property('description');
+        res.body[0].should.have.property('price');
+        res.body[0].should.have.property('rating');
+        res.body[0].should.have.property('reviews');
+        done();
+      });
+  });
+});
+
+describe('GET request to /morehomes', () => {
+  before(() => {
+    seedDb();
+  });
+  it('should return 12 homes from the database', (done) => {
+    chai.request(server)
+      .get('/morehomes')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body[0].should.have.property('pictureUrl');
+        res.body[0].should.have.property('typeOfHome');
+        res.body[0].should.have.property('city');
+        res.body[0].should.have.property('description');
+        res.body[0].should.have.property('price');
+        res.body[0].should.have.property('rating');
+        res.body[0].should.have.property('reviews');
+        res.body.length.should.equal(12);
+        done();
+      });
+  });
+});
+
 describe('Seeding the database', () => {
   before(() => {
     db.saveHome(sampleHome);
   });
 
   it('should save a document in the database using saveHome function', () => {
-    ModelSample.find((err, results) => {
-      console.log('RESULTS', results);
-      should.exist(results[0]);
-      results[0].should.be.an('object');
-      results[0].should.have.property('pictureUrl');
-      results[0].should.have.property('typeOfHome');
-      results[0].should.have.property('city');
-      results[0].should.have.property('description');
-      results[0].should.have.property('price');
-      results[0].should.have.property('rating');
-      results[0].should.have.property('reviews');
-      mongoose.connection.db.dropDatabase();
-    });
+    setTimeout(() => {
+      ModelSample.find((err, results) => {
+        console.log('RESULTS', results);
+        should.exist(results[0]);
+        results[0].should.be.an('object');
+        results[0].should.have.property('pictureUrl');
+        results[0].should.have.property('typeOfHome');
+        results[0].should.have.property('city');
+        results[0].should.have.property('description');
+        results[0].should.have.property('price');
+        results[0].should.have.property('rating');
+        results[0].should.have.property('reviews');
+      });
+    }, 1000);
   });
-
-  // after(() => {
-  //   // mongoose.connection.on('open', () => {
-  //   //   mongoose.connection.db.dropDatabase();
-  //   // });
-  //   mongoose.connection.db.dropDatabase();
-  // });
 });
