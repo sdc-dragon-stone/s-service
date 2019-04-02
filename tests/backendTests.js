@@ -36,6 +36,45 @@ describe('GET request to /', () => {
   });
 });
 
+describe('GET request to /allhomes', () => {
+  it('should return all homes from the database', (done) => {
+    chai.request(server)
+      .get('/allhomes')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body[0].should.have.property('pictureUrl');
+        res.body[0].should.have.property('typeOfHome');
+        res.body[0].should.have.property('city');
+        res.body[0].should.have.property('description');
+        res.body[0].should.have.property('price');
+        res.body[0].should.have.property('rating');
+        res.body[0].should.have.property('reviews');
+        done();
+      });
+  });
+});
+
+describe('GET request to /morehomes', () => {
+  it('should return 12 homes', (done) => {
+    chai.request(server)
+      .get('/morehomes')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body[0].should.have.property('pictureUrl');
+        res.body[0].should.have.property('typeOfHome');
+        res.body[0].should.have.property('city');
+        res.body[0].should.have.property('description');
+        res.body[0].should.have.property('price');
+        res.body[0].should.have.property('rating');
+        res.body[0].should.have.property('reviews');
+        res.body.length.should.equal(12);
+        done();
+      });
+  });
+});
+
 describe('Seeding the database', () => {
   before(() => {
     db.saveHome(sampleHome);
