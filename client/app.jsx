@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SingleHome from './components/SingleHome.jsx';
@@ -8,17 +6,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      moreHomes: [
-        {
-          city: '',
-          description: '',
-          pictureUrl: '',
-          price: '',
-          rating: '',
-          reviews: '',
-          typeOfHome: ''
-        }
-      ]
+      moreHomes: []
     };
   }
 
