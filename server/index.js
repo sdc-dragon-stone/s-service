@@ -29,7 +29,7 @@ function getRandomId(min, max) {
 }
 
 app.get('/morehomes', (req, res) => {
-  const id = getRandomId(1, 88);
+  const id = getRandomId(1, 100);
   const selectedHomes = [];
   // Like airbnb, 12 homes will be added in the carousel
   for (let i = id; i < id + 12; i += 1) {
