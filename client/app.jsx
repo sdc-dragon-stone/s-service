@@ -32,21 +32,26 @@ class App extends React.Component {
     };
     return (
       <div>
-        <Slider {...settings}>
-          {this.state.moreHomes.map(eachHome => (
-            <SingleHome
-              key={eachHome._id + eachHome.city}
-              id={eachHome._id}
-              pictureUrl={eachHome.pictureUrl}
-              typeOfHome={eachHome.typeOfHome}
-              city={eachHome.city}
-              description={eachHome.description}
-              price={eachHome.price}
-              rating={eachHome.rating}
-              reviews={eachHome.reviews}
-            />
-          ))}
-        </Slider>
+        <div>
+          More homes you may like <br /><br />
+        </div>
+        <div>
+          <Slider {...settings}>
+            {this.state.moreHomes.map(eachHome => (
+              <SingleHome
+                key={eachHome._id + eachHome.city}
+                id={eachHome._id}
+                pictureUrl={eachHome.pictureUrl}
+                typeOfHome={eachHome.typeOfHome}
+                city={eachHome.city}
+                description={eachHome.description}
+                price={eachHome.price}
+                rating={eachHome.rating}
+                reviews={eachHome.reviews}
+              />
+            ))}
+          </Slider>
+        </div>
       </div>
     );
   }
