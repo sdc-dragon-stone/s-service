@@ -30,8 +30,9 @@ From within the root directory:
 ```sh
 npm install -g webpack
 npm install
-npm start (to start the server)
-npm seedDb (to seed the database)
+npm run build (to run webpack and bundle files)
+npm run start (to start the server using port 3000)
+npm run seedDb (to seed the database)
 ```
 
 ## API Requests
