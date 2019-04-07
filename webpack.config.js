@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: path.join(__dirname, '/client/app.jsx'),
+  entry: path.join(__dirname, '/client/MoreHomes.jsx'),
   module: {
     rules: [
       {

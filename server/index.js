@@ -4,6 +4,7 @@ const path = require('path');
 const db = require('../database/index.js');
 
 const app = express();
+const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -46,4 +47,5 @@ app.get('/morehomes', (req, res) => {
   }, 50);
 });
 
-module.exports = app.listen(3000, console.log('listening on port 3000'));
+const server = app.listen(port, console.log(`listening on port ${port}`));
+module.exports = server;

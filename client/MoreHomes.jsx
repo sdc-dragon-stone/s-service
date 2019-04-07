@@ -5,7 +5,7 @@ import SingleHome from './components/SingleHome.jsx';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-class App extends React.Component {
+class MoreHomes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,4 +57,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<MoreHomes />, document.getElementById('morehomes'));
