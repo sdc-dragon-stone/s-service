@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const faker = require('faker');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
+const server = require('../server/index.js');
+const sampleData = require('./sampleData');
 
 mongoose.connect('mongodb://localhost/morehomes', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 
@@ -20,13 +22,14 @@ homeSchema.plugin(AutoIncrement);
 const Home = mongoose.model('Home', homeSchema);
 
 function assignUrl(homeUrl) {
+  const numOfStars = server.getRandomId(0, 1);
   const newHome = new Home({
     pictureUrl: homeUrl,
     typeOfHome: `entire ${faker.lorem.word()}`,
     city: faker.address.city(),
     description: faker.random.words(3),
     price: faker.random.number({ min: 35, max: 150 }),
-    rating: `Stars: ${faker.random.number({ min: 3.5, max: 5 })}`,
+    rating: sampleData.stars[numOfStars],
     reviews: faker.random.number({ min: 20, max: 50 })
   });
 
