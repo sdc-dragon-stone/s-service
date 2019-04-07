@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Slider from 'react-slick';
+import styled from 'styled-components';
 import SingleHome from './components/SingleHome.jsx';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -21,6 +22,16 @@ class MoreHomes extends React.Component {
   }
 
   render() {
+    const Carousel = styled.div`
+    margin: 50px 150px;
+    `;
+    const Title = styled.div`
+    @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans');
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 23px;
+    color: #4A4745;
+    `;
     const settings = {
       dots: true,
       lazyLoad: true,
@@ -31,10 +42,10 @@ class MoreHomes extends React.Component {
       initialSlide: 0
     };
     return (
-      <div>
-        <div>
+      <Carousel>
+        <Title>
           More homes you may like <br /><br />
-        </div>
+        </Title>
         <div>
           <Slider {...settings}>
             {this.state.moreHomes.map(eachHome => (
@@ -52,7 +63,7 @@ class MoreHomes extends React.Component {
             ))}
           </Slider>
         </div>
-      </div>
+      </Carousel>
     );
   }
 }
