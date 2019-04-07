@@ -47,9 +47,4 @@ app.get('/morehomes', (req, res) => {
   }, 50);
 });
 
-const server = app.listen(port, console.log(`listening on port ${port}`));
-
-module.exports = {
-  server,
-  getRandomId
-};
+module.exports = app.listen(port, console.log(`listening on port ${port}`));

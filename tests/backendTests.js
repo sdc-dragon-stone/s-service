@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable array-callback-return */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const should = require('chai').should();
@@ -22,7 +20,7 @@ const sampleHome = new ModelSample({
   city: faker.address.city(),
   description: faker.random.words(3),
   price: faker.random.number({ min: 35, max: 150 }),
-  rating: `Stars: ${faker.random.number({ min: 3.5, max: 5 })}`,
+  rating: 'https://s3-us-west-1.amazonaws.com/mashbnb/Stars/Screen+Shot+2019-04-07+at+11.00.17+AM.png',
   reviews: faker.random.number({ min: 20, max: 50 })
 });
 
