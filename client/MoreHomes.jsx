@@ -23,7 +23,7 @@ class MoreHomes extends React.Component {
 
   render() {
     const Carousel = styled.div`
-    margin: 50px 150px;
+    margin: 50px 125px;
     `;
     const Title = styled.div`
     @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans');
@@ -34,12 +34,14 @@ class MoreHomes extends React.Component {
     `;
     const settings = {
       dots: true,
+      arrows: true,
       lazyLoad: true,
-      infinite: true,
+      infinite: false,
       speed: 500,
       slidesToShow: 3,
       slidesToScroll: 1,
-      initialSlide: 0
+      initialSlide: 0,
+      className: 'slides'
     };
     return (
       <Carousel>
@@ -47,7 +49,7 @@ class MoreHomes extends React.Component {
           More homes you may like <br /><br />
         </Title>
         <div>
-          <Slider {...settings}>
+          <Slider {...settings} style={{ color: 'black' }}>
             {this.state.moreHomes.map(eachHome => (
               <SingleHome
                 key={eachHome._id + eachHome.city}
