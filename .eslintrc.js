@@ -19,7 +19,8 @@ module.exports = {
     'react/jsx-one-expression-per-line': 'off',
     'react/destructuring-assignment': 'off',
     'react/prop-types': 'off',
-    'no-underscore-dangle': 'off'
+    'no-underscore-dangle': 'off',
+    'array-callback-return': 'off'
   }
 };
 

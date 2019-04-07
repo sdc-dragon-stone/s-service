@@ -1,3 +1,8 @@
+const stars = [
+  'https://s3-us-west-1.amazonaws.com/mashbnb/Stars/Screen+Shot+2019-04-07+at+10.59.34+AM.png',
+  'https://s3-us-west-1.amazonaws.com/mashbnb/Stars/Screen+Shot+2019-04-07+at+11.00.17+AM.png'
+];
+
 const homes = [
   'https://s3-us-west-1.amazonaws.com/mashbnb/007235ea-aaaf-4dc0-b733-845b92ed5509.jpg',
   'https://s3-us-west-1.amazonaws.com/mashbnb/0_F43HRv7o6nBpfaWF.jpeg',
@@ -115,5 +120,6 @@ const homes = [
 ];
 
 module.exports = {
+  stars,
   homes
 };
