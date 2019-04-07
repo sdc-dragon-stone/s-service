@@ -1,6 +1,6 @@
-# Mashbnb
+# Mashbnb - More Homes
 
-> Replicating Airbnb
+> Replicating Airbnb. This is the "More Homes" module.
 
 ## Related Projects
 
