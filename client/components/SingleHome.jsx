@@ -3,17 +3,15 @@ import styled from 'styled-components';
 
 function SingleHome(props) {
   const GeneralStyle = styled.div`
-  @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans');
-  font-family: Roboto, sans-serif;
   color: #4A4745;
   line-height: 20px;
   letter-spacing: 0.2px
   `;
   const HomeType = styled.div`
+  color: #744D32;
   text-transform: uppercase;
   font-weight: 500;
   font-size: 12px;
-  color: #744D32;
   `;
   const DescribeHome = styled.div`
   font-weight: 500;

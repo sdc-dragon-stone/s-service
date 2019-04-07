@@ -23,11 +23,12 @@ class MoreHomes extends React.Component {
 
   render() {
     const Carousel = styled.div`
-    margin: 50px 125px;
-    `;
-    const Title = styled.div`
     @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans');
     font-family: Roboto, sans-serif;
+    margin: 50px 125px;
+    align: center;
+    `;
+    const Title = styled.div`
     font-weight: 500;
     font-size: 23px;
     color: #4A4745;
