@@ -20,7 +20,8 @@ module.exports = {
     'react/destructuring-assignment': 'off',
     'react/prop-types': 'off',
     'no-underscore-dangle': 'off',
-    'array-callback-return': 'off'
+    'array-callback-return': 'off',
+    'import/no-extraneous-dependencies': 'off'
   }
 };
 
