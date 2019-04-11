@@ -33,7 +33,6 @@ class MoreHomes extends React.Component {
       dataType: 'json',
       data: { id: id },
       success: (twelveHomes) => {
-        console.log('TWELVE HOMES', twelveHomes);
         this.setState({ moreHomes: twelveHomes });
       }
     });
