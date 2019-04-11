@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Slider from 'react-slick';
 import styled from 'styled-components';
+import $ from 'jquery';
 import SingleHome from './components/SingleHome.jsx';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -15,10 +16,27 @@ class MoreHomes extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/morehomes')
-      .then(response => response.json()).then((twelveHomes) => {
+    function getRandomId(min, max) {
+      const minId = Math.ceil(min);
+      const maxId = Math.floor(max);
+      return Math.floor(Math.random() * (maxId - minId + 1)) + minId;
+    }
+    let id;
+    if (window.id === null || window.id === undefined || window.id > 100) {
+      id = getRandomId(1, 100);
+    } else {
+      id = window.id;
+    }
+    $.ajax({
+      method: 'GET',
+      url: '/morehomes',
+      dataType: 'json',
+      data: { id: id },
+      success: (twelveHomes) => {
+        console.log('TWELVE HOMES', twelveHomes);
         this.setState({ moreHomes: twelveHomes });
-      });
+      }
+    });
   }
 
   render() {
