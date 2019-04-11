@@ -21,8 +21,10 @@ app.get('/allhomes', (req, res) => {
 });
 
 app.get('/morehomes', (req, res) => {
-  const id = parseInt(req.query.id);
+  let id = parseInt(req.query.id);
   const selectedHomes = [];
+
+  if (!id) { id = 1; }
 
   for (let i = id; i < id + 12; i += 1) {
     db.getOneHomeById(i, (err, result) => {
