@@ -1,13 +1,3 @@
-/**
- * These rules enforce the Hack Reactor Style Guide
- *
- * Visit this repo for more information:
- *   https://github.com/reactorcore/eslint-config-hackreactor
- */
-
-// module.exports = {
-//   extends: './node_modules/eslint-config-hackreactor/index.js'
-// };
 module.exports = {
   extends: 'airbnb',
   rules: {
@@ -21,7 +11,10 @@ module.exports = {
     'react/prop-types': 'off',
     'no-underscore-dangle': 'off',
     'array-callback-return': 'off',
-    'import/no-extraneous-dependencies': 'off'
+    'import/no-extraneous-dependencies': 'off',
+    'prefer-destructuring': 'off',
+    'object-shorthand': 'off',
+    'radix': 'off'
   }
 };
 
