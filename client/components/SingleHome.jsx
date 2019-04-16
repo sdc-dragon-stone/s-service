@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React from 'react';
 import styled from 'styled-components';
 
@@ -27,7 +28,7 @@ function SingleHome(props) {
   `;
   return (
     <div className="homePic">
-      <a href={`http://localhost:8000?id=${props.id}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+      <a href={`${location.origin}?id=${props.id}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
         <img src={props.pictureUrl} key={props.id} alt="Place for rent" width="315" height="210" />
         <GeneralStyle>
           <HomeType>{props.typeOfHome} &#183; {props.city}</HomeType>
