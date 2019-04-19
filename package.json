@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node server/index.js",
     "seedDb": "node database/seedingDb.js",
-    "build": "webpack -d --watch",
+    "webpack": "webpack -d --watch",
+    "build": "webpack -p",
     "test": "mocha tests/backendTests.js --exit"
   },
   "dependencies": {
