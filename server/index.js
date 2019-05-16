@@ -40,4 +40,30 @@ app.get('/morehomes', (req, res) => {
   }, 50);
 });
 
+// part below for SDC
+app.get('/home/:id', (req, res) => {
+  db.getOneHomeById(req.params.id, (err, home) => {
+    if (err) {
+      res.status(500).send(err);
+    } else if (home === null) {
+      res.status(404).send({ message: 'This object does not exist' });
+    } else {
+      res.status(200).send(home);
+    }
+  });
+});
+
+app.post('/home', (req, res) => {
+  // need to decide structure + also think through image upload?
+  res.send('post route');
+});
+
+app.put('/home/:id', (req, res) => {
+  res.send('put route');
+});
+
+app.delete('/home/:id', (req, res) => {
+  res.send('delete route');
+});
+
 module.exports = app.listen(port, console.log(`listening on port ${port}`));

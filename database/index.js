@@ -61,5 +61,6 @@ module.exports = {
   assignUrl,
   saveHome,
   readAll,
-  getOneHomeById
+  getOneHomeById,
+  Home
 };
