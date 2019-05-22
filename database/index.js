@@ -56,11 +56,31 @@ function getOneHomeById(id, callback) {
   Home.findById(id, callback);
 }
 
+const createHome = (body, callback) => {
+  const houseStats = { ...body };
+
+  // add "server" stuff
+  houseStats.rating = sampleData.stars[getRandomId(0, 1)];
+  houseStats.reviews = faker.random.number({ min: 20, max: 50 });
+
+  const house = new Home(houseStats);
+
+  house.save((err, home) => {
+    if (err) {
+      console.log(err);
+      callback(err);
+    } else {
+      callback(null, home);
+    }
+  });
+};
+
 module.exports = {
   homeSchema,
   assignUrl,
   saveHome,
   readAll,
   getOneHomeById,
-  Home
+  Home,
+  createHome
 };
