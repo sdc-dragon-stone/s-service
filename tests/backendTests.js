@@ -136,3 +136,27 @@ describe('POST route', () => {
       });
   });
 });
+
+describe('PUT route', () => {
+  it('should return 400 if object does not exist', (done) => {
+    chai.request(server)
+      .put('/home/-1') // "cheating" to always get a number that won't exist in the db
+      .send({
+        typeOfHome: 'entire est',
+        city: 'Port Wallace',
+        description: 'approach deposit connect',
+        price: 59
+      })
+      .end((err, res) => {
+        const message = res.body.message; // appease the chai gods
+        res.should.have.status(400);
+        message.should.equal('This object does not exist. Please POST to create the object.');
+        // console.log('---------------- RESPONSE ----------------', res);
+        done();
+      });
+  });
+
+  it('should return 400 if a bad image URL is used', (done) => {
+    done();
+  });
+});

@@ -67,10 +67,8 @@ app.post('/home', validation.objectValidation, validation.postValidation, (req, 
 app.put('/home/:id', validation.objectValidation, validation.putValidation, (req, res) => {
   db.updateHome(req.params.id, req.body, (err, doc) => {
     if (err) {
-      console.log('err', err);
       res.status(400).send(err);
     }
-    console.log('doc', doc);
     res.status(200).send(doc);
   });
 });
