@@ -75,6 +75,30 @@ const createHome = (body, callback) => {
   });
 };
 
+const updateHome = (id, body, callback) => {
+  Home.findOne({ _id: id }, (err, doc) => {
+    if (err) {
+      callback(err);
+    } else if (doc === null) {
+      callback({ message: 'This object does not exist. Please POST to create the object.' });
+    } else {
+      const keys = Object.keys(body);
+      let key;
+      for (let i = 0; i < keys.length; i += 1) {
+        key = keys[i];
+        doc[key] = body[key];
+      }
+      doc.save((saveErr, finalDoc) => {
+        if (saveErr) {
+          callback(err);
+        } else {
+          callback(null, finalDoc);
+        }
+      });
+    }
+  });
+};
+
 module.exports = {
   homeSchema,
   assignUrl,
@@ -82,5 +106,6 @@ module.exports = {
   readAll,
   getOneHomeById,
   Home,
-  createHome
+  createHome,
+  updateHome
 };

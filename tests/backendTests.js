@@ -102,3 +102,37 @@ describe('Seeding the database', () => {
     }, 1000);
   });
 });
+
+describe('POST route', () => {
+  it('should return 400 if a required parameter is missing', (done) => {
+    chai.request(server)
+      .post('/home')
+      .send({
+        typeOfHome: 'entire est',
+        city: 'Port Wallace',
+        description: 'approach deposit connect',
+        price: 59
+      })
+      .end((err, res) => {
+        const message = res.body.message; // appease the chai gods
+        res.should.have.status(400);
+        message.should.equal('Your image URL is missing or malformed');
+        // console.log('---------------- RESPONSE ----------------', res);
+        done();
+      });
+  });
+
+  it('should return 400 if an extra parameter is added', (done) => {
+    chai.request(server)
+      .post('/home')
+      .send({
+        foo: 'bar'
+      })
+      .end((err, res) => {
+        const message = res.body.message; // appease the chai gods
+        res.should.have.status(400);
+        message.should.equal('Your house object contains bad key values! Please ensure it only uses [pictureUrl, typeOfHome, city, description, price]');
+        done();
+      });
+  });
+});

@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const db = require('../database/index.js');
-const isImageUrl = require('is-image-url');
+const validation = require('../middleware/objectValidation.js');
 
 const app = express();
 const port = 3000;
@@ -54,44 +54,25 @@ app.get('/home/:id', (req, res) => {
   });
 });
 
-app.post('/home', (req, res) => {
-  // rough object structure validation
-  let validation = true;
-  const keys = Object.keys(req.body);
-  for (let i = 0; i < keys.length; i += 1) {
-    if (keys[i] !== 'pictureUrl' && keys[i] !== 'typeOfHome' && keys[i] !== 'city' && keys[i] !== 'description' && keys[i] !== 'price') {
-      validation = false;
-      res.status(400).send({ message: 'Your house object contains bad key values! Please ensure it only uses [pictureUrl, typeOfHome, city, description, price]' });
-      i = keys.length;
+app.post('/home', validation.objectValidation, validation.postValidation, (req, res) => {
+  db.createHome(req.body, (err, home) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(201).send(home);
     }
-  }
-
-  // rough API validation
-  if (validation === true) {
-    if (!(Object.prototype.hasOwnProperty.call(req.body, 'pictureUrl')) || isImageUrl(req.body.pictureUrl) === false) {
-      res.status(400).send({ message: 'Your image URL is missing or malformed' });
-    } else if (!(Object.prototype.hasOwnProperty.call(req.body, 'typeOfHome'))) {
-      res.status(400).send({ message: 'Your typeOfHome is missing! Please add a value' });
-    } else if (!(Object.prototype.hasOwnProperty.call(req.body, 'city'))) {
-      res.status(400).send({ message: 'Your city is missing! Please add a value' });
-    } else if (!(Object.prototype.hasOwnProperty.call(req.body, 'description'))) {
-      res.status(400).send({ message: 'Your description is missing! Please add a value' });
-    } else if (!(Object.prototype.hasOwnProperty.call(req.body, 'price')) || typeof req.body.price !== 'number') {
-      res.status(400).send({ message: 'Your price is missing or not a number! Please add a value' });
-    } else { // passed validation
-      db.createHome(req.body, (err, home) => {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          res.status(201).send(home);
-        }
-      });
-    }
-  }
+  });
 });
 
-app.put('/home/:id', (req, res) => {
-  res.send('put route');
+app.put('/home/:id', validation.objectValidation, validation.putValidation, (req, res) => {
+  db.updateHome(req.params.id, req.body, (err, doc) => {
+    if (err) {
+      console.log('err', err);
+      res.status(400).send(err);
+    }
+    console.log('doc', doc);
+    res.status(200).send(doc);
+  });
 });
 
 app.delete('/home/:id', (req, res) => {
