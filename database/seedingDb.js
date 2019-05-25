@@ -36,6 +36,7 @@ const seedDb = () => {
         // put into array for insertMany
         insertArray.push(homeData);
       }
+      // eslint-disable-next-line no-await-in-loop
       await db.Home.insertMany(insertArray);
     }
   });
