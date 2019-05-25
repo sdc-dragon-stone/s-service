@@ -74,7 +74,13 @@ app.put('/home/:id', validation.objectValidation, validation.putValidation, (req
 });
 
 app.delete('/home/:id', (req, res) => {
-  res.send('delete route');
+  db.deleteHome(req.params.id, (err) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.status(204).send();
+    }
+  });
 });
 
 module.exports = app.listen(port, console.log(`listening on port ${port}`));

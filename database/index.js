@@ -99,6 +99,18 @@ const updateHome = (id, body, callback) => {
   });
 };
 
+const deleteHome = (id, callback) => {
+  Home.remove({ _id: id }, (err, count) => {
+    if (err) {
+      callback(err);
+    } else if (count.n === 0) {
+      callback({ message: 'This object does not exist.' });
+    } else {
+      callback(null);
+    }
+  });
+};
+
 module.exports = {
   homeSchema,
   assignUrl,
@@ -107,5 +119,6 @@ module.exports = {
   getOneHomeById,
   Home,
   createHome,
-  updateHome
+  updateHome,
+  deleteHome
 };

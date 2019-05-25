@@ -155,8 +155,4 @@ describe('PUT route', () => {
         done();
       });
   });
-
-  it('should return 400 if a bad image URL is used', (done) => {
-    done();
-  });
 });
