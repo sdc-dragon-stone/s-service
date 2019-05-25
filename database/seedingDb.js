@@ -13,6 +13,7 @@ const seedDb = () => {
     const insertArray = [];
     let numOfStars;
     let photoId;
+    let id = 0;
 
     for (let i = 0; i < 100; i += 1) {
       console.log('loop', i);
@@ -24,6 +25,7 @@ const seedDb = () => {
 
         // build home
         homeData = new db.Home({
+          _id: id,
           pictureUrl: sampleData.homes[photoId], // need to randomize this hoice
           typeOfHome: `entire ${faker.lorem.word()}`,
           city: faker.address.city(),
@@ -32,6 +34,7 @@ const seedDb = () => {
           rating: sampleData.stars[numOfStars], // need to move this over
           reviews: faker.random.number({ min: 20, max: 50 })
         });
+        id += 1;
 
         // put into array for insertMany
         insertArray.push(homeData);
@@ -39,13 +42,17 @@ const seedDb = () => {
       // eslint-disable-next-line no-await-in-loop
       await db.Home.insertMany(insertArray);
     }
+    db.overrideCounter((counterErr) => {
+      if (counterErr) {
+        throw counterErr;
+      } else {
+        console.log('data entry script complete!');
+        process.exit();
+      }
+    });
   });
 };
 
 seedDb();
 
 module.exports = seedDb;
-// 100 times:
-  // create 100k records
-    // stuff into array
-      // await insert many

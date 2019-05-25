@@ -80,28 +80,28 @@ describe('GET request to /', () => {
 //   });
 // });
 
-describe('Seeding the database', () => {
-  before(() => {
-    db.saveHome(sampleHome);
-  });
+// describe('Seeding the database', () => {
+//   before(() => {
+//     db.saveHome(sampleHome);
+//   });
 
-  it('should save a document in the database using saveHome function', () => {
-    setTimeout(() => {
-      ModelSample.find((err, results) => {
-        console.log('RESULTS', results);
-        should.exist(results[0]);
-        results[0].should.be.an('object');
-        results[0].should.have.property('pictureUrl');
-        results[0].should.have.property('typeOfHome');
-        results[0].should.have.property('city');
-        results[0].should.have.property('description');
-        results[0].should.have.property('price');
-        results[0].should.have.property('rating');
-        results[0].should.have.property('reviews');
-      });
-    }, 1000);
-  });
-});
+//   it('should save a document in the database using saveHome function', () => {
+//     setTimeout(() => {
+//       ModelSample.find((err, results) => {
+//         console.log('RESULTS', results);
+//         should.exist(results[0]);
+//         results[0].should.be.an('object');
+//         results[0].should.have.property('pictureUrl');
+//         results[0].should.have.property('typeOfHome');
+//         results[0].should.have.property('city');
+//         results[0].should.have.property('description');
+//         results[0].should.have.property('price');
+//         results[0].should.have.property('rating');
+//         results[0].should.have.property('reviews');
+//       });
+//     }, 1000);
+//   });
+// });
 
 describe('POST route', () => {
   it('should return 400 if a required parameter is missing', (done) => {
@@ -156,5 +156,3 @@ describe('PUT route', () => {
       });
   });
 });
-
-

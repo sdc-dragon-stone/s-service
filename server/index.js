@@ -84,6 +84,9 @@ app.delete('/home/:id', (req, res) => {
 });
 
 module.exports = app.listen(port, console.log(`listening on port ${port}`));
+// db.overrideCounter((err) => {
+//   if (err) { throw err; }
+// });
 
 /*
 
