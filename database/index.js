@@ -56,10 +56,69 @@ function getOneHomeById(id, callback) {
   Home.findById(id, callback);
 }
 
+const createHome = (body, callback) => {
+  const houseStats = { ...body };
+
+  // add "server" stuff
+  houseStats.rating = sampleData.stars[getRandomId(0, 1)];
+  houseStats.reviews = faker.random.number({ min: 20, max: 50 });
+
+  const house = new Home(houseStats);
+
+  house.save((err, home) => {
+    if (err) {
+      console.log(err);
+      callback(err);
+    } else {
+      callback(null, home);
+    }
+  });
+};
+
+const updateHome = (id, body, callback) => {
+  Home.findOne({ _id: id }, (err, doc) => {
+    if (err) {
+      callback(err);
+    } else if (doc === null) {
+      callback({ message: 'This object does not exist. Please POST to create the object.' });
+    } else {
+      const keys = Object.keys(body);
+      let key;
+      for (let i = 0; i < keys.length; i += 1) {
+        key = keys[i];
+        doc[key] = body[key];
+      }
+      doc.save((saveErr, finalDoc) => {
+        if (saveErr) {
+          callback(err);
+        } else {
+          callback(null, finalDoc);
+        }
+      });
+    }
+  });
+};
+
+const deleteHome = (id, callback) => {
+  Home.remove({ _id: id }, (err, count) => {
+    if (err) {
+      callback(err);
+    } else if (count.n === 0) {
+      callback({ message: 'This object does not exist.' });
+    } else {
+      callback(null);
+    }
+  });
+};
+
 module.exports = {
   homeSchema,
   assignUrl,
   saveHome,
   readAll,
-  getOneHomeById
+  getOneHomeById,
+  Home,
+  createHome,
+  updateHome,
+  deleteHome
 };
