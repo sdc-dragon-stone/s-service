@@ -120,5 +120,6 @@ module.exports = {
   Home,
   createHome,
   updateHome,
-  deleteHome
+  deleteHome,
+  getRandomId
 };
