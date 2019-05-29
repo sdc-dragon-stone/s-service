@@ -16,9 +16,16 @@ const homeSchema = new mongoose.Schema({
   reviews: Number
 }, { _id: false });
 
-homeSchema.plugin(AutoIncrement);
+// for script ONLY
+const counterSchema = new mongoose.Schema({
+  id: String,
+  seq: Number
+}, { collection: 'counters' });
+
+homeSchema.plugin(AutoIncrement, { id: 'home_counter', inc_field: '_id' });
 
 const Home = mongoose.model('Home', homeSchema);
+const Counter = mongoose.model('counter', counterSchema);
 
 function getRandomId(min, max) {
   const minId = Math.ceil(min);
@@ -111,6 +118,24 @@ const deleteHome = (id, callback) => {
   });
 };
 
+// purely for mongo script
+const overrideCounter = (callback) => {
+  Counter.findOne({ id: 'home_counter' }, (err, doc) => {
+    if (err) {
+      callback(err);
+    } else {
+      doc.seq = 10000000 - 1;
+      doc.save((error, finalDoc) => {
+        if (error) {
+          callback(error);
+        } else {
+          callback(null, finalDoc);
+        }
+      });
+    }
+  });
+};
+
 module.exports = {
   homeSchema,
   assignUrl,
@@ -120,5 +145,7 @@ module.exports = {
   Home,
   createHome,
   updateHome,
-  deleteHome
+  deleteHome,
+  getRandomId,
+  overrideCounter
 };
