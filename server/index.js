@@ -23,22 +23,13 @@ app.get('/allhomes', (req, res) => {
 
 app.get('/morehomes', (req, res) => {
   let id = parseInt(req.query.id);
-  const selectedHomes = [];
 
   if (!id) { id = 1; }
 
-  for (let i = id; i < id + 12; i += 1) {
-    db.getOneHomeById(i, (err, result) => {
-      if (err) {
-        console.log('getTwelveHomes error:', err);
-        res.status(500).send('Error getting home by Id:', err);
-      }
-      selectedHomes.push(result);
-    });
-  }
-  setTimeout(() => {
-    res.status(200).send(selectedHomes);
-  }, 50);
+  db.getTwelveHomes(id, (err, houses) => {
+    if (err) { res.status(400).send(err); }
+    res.status(200).send(houses);
+  });
 });
 
 // part below for SDC
@@ -84,33 +75,3 @@ app.delete('/home/:id', (req, res) => {
 });
 
 module.exports = app.listen(port, console.log(`listening on port ${port}`));
-// db.overrideCounter((err) => {
-//   if (err) { throw err; }
-// });
-
-/*
-
-
-  // check if body is faulty
-    // does it have all props?
-    // is price a number?
-    // does the picture look like a URL?
-  // add two props
-    // rating: pic randomizer
-    // review: num randomizer
-  // write to DB
-
-    ideal body:
-  {
-    "pictureUrl": "https://s3.us-east-2.amazonaws.com/elasticbeanstalk-us-east-2-500188952591/mashbnb/tiny-house-for-sale-nashville-tn-airbnb-cute-button.jpg",
-    "typeOfHome": "entire est",
-    "city": "Port Wallace",
-    "description": "approach deposit connect",
-    "price": 59,
-  }
-  add:
-  {
-    "rating":,
-    "reviews":
-  }
-*/

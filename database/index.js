@@ -1,31 +1,17 @@
-const mongoose = require('mongoose');
+const knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host: '127.0.0.1',
+    user: 'sdc',
+    password: 'dragonstone',
+    database: 'homes'
+  }
+});
+
+// in the middle of a rewrite
+
 const faker = require('faker');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
 const sampleData = require('./sampleData');
-
-mongoose.connect('mongodb://localhost/morehomes', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
-
-const homeSchema = new mongoose.Schema({
-  _id: Number,
-  pictureUrl: String,
-  typeOfHome: String,
-  city: String,
-  description: String,
-  price: Number,
-  rating: String,
-  reviews: Number
-}, { _id: false });
-
-// for script ONLY
-const counterSchema = new mongoose.Schema({
-  id: String,
-  seq: Number
-}, { collection: 'counters' });
-
-homeSchema.plugin(AutoIncrement, { id: 'home_counter', inc_field: '_id' });
-
-const Home = mongoose.model('Home', homeSchema);
-const Counter = mongoose.model('counter', counterSchema);
 
 function getRandomId(min, max) {
   const minId = Math.ceil(min);
@@ -60,7 +46,43 @@ function readAll(callback) {
 }
 
 function getOneHomeById(id, callback) {
-  Home.findById(id, callback);
+  knex
+    .from('homes')
+    .where({ id: id })
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const getTwelveHomes = (id, callback) => {
+  knex
+    .from('homes')
+    .where('id', '>=', id)
+    .andWhere('id', '<', id + 12)
+    .limit(12)
+    .then((res) => {
+      if (res.length < 12) { // promise hell?
+        knex
+          .from('homes')
+          .where('id', '>', 0)
+          .limit(12 - res.length)
+          .then((res2) => {
+            const finalRes = res.concat(res2);
+            callback(null, finalRes);
+          })
+          .catch((err) => {
+            callback(err);
+          });
+      } else {
+        callback(null, res);
+      }
+    })
+    .catch((err) => {
+      callback(err);
+    });
 }
 
 const createHome = (body, callback) => {
@@ -137,15 +159,14 @@ const overrideCounter = (callback) => {
 };
 
 module.exports = {
-  homeSchema,
   assignUrl,
   saveHome,
   readAll,
   getOneHomeById,
-  Home,
   createHome,
   updateHome,
   deleteHome,
   getRandomId,
-  overrideCounter
+  overrideCounter,
+  getTwelveHomes
 };

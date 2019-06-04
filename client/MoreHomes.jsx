@@ -16,23 +16,20 @@ class MoreHomes extends React.Component {
   }
 
   componentDidMount() {
-    function getRandomId(min, max) {
-      const minId = Math.ceil(min);
-      const maxId = Math.floor(max);
-      return Math.floor(Math.random() * (maxId - minId + 1)) + minId;
-    }
-    let id;
-    if (window.id === null || window.id === undefined || window.id > 100) {
-      id = getRandomId(1, 100);
-    } else {
-      id = window.id;
-    }
+    // function getRandomId(min, max) {
+    //   const minId = Math.ceil(min);
+    //   const maxId = Math.floor(max);
+    //   return Math.floor(Math.random() * (maxId - minId + 1)) + minId;
+    // }
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
     $.ajax({
       method: 'GET',
       url: '/morehomes',
       dataType: 'json',
       data: { id: id },
       success: (twelveHomes) => {
+        console.log(twelveHomes);
         this.setState({ moreHomes: twelveHomes });
       }
     });
@@ -70,8 +67,8 @@ class MoreHomes extends React.Component {
           <Slider {...settings} style={{ color: 'black' }}>
             {this.state.moreHomes.map(eachHome => (
               <SingleHome
-                key={eachHome._id + eachHome.city}
-                id={eachHome._id}
+                key={eachHome.id + eachHome.city}
+                id={eachHome.id}
                 pictureUrl={eachHome.pictureUrl}
                 typeOfHome={eachHome.typeOfHome}
                 city={eachHome.city}
