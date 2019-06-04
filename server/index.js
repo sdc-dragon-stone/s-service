@@ -59,8 +59,9 @@ app.put('/home/:id', validation.objectValidation, validation.putValidation, (req
   db.updateHome(req.params.id, req.body, (err, doc) => {
     if (err) {
       res.status(400).send(err);
+    } else {
+      res.status(204).send();
     }
-    res.status(200).send(doc);
   });
 });
 

@@ -87,57 +87,63 @@ const getTwelveHomes = (id, callback) => {
 
 const createHome = (body, callback) => {
   const houseStats = { ...body };
-
-  // add "server" stuff
   houseStats.rating = sampleData.stars[getRandomId(0, 1)];
   houseStats.reviews = faker.random.number({ min: 20, max: 50 });
 
-  const house = new Home(houseStats);
-
-  house.save((err, home) => {
-    if (err) {
-      console.log(err);
+  knex('homes')
+    .insert(houseStats)
+    .then((res) => {
+      console.log(res);
+      callback(null, res);
+    })
+    .catch((err) => {
       callback(err);
-    } else {
-      callback(null, home);
-    }
-  });
+    });
 };
 
 const updateHome = (id, body, callback) => {
-  Home.findOne({ _id: id }, (err, doc) => {
-    if (err) {
-      callback(err);
-    } else if (doc === null) {
-      callback({ message: 'This object does not exist. Please POST to create the object.' });
-    } else {
-      const keys = Object.keys(body);
-      let key;
-      for (let i = 0; i < keys.length; i += 1) {
-        key = keys[i];
-        doc[key] = body[key];
+  knex
+    .from('homes')
+    .where({ id: id })
+    .then((doc) => {
+      if (doc.length === 0) {
+        callback({ message: 'This object does not exist. Please POST to create the object.' });
+      } else {
+        return doc;
       }
-      doc.save((saveErr, finalDoc) => {
-        if (saveErr) {
-          callback(err);
-        } else {
+    })
+    .then(() => {
+      knex('homes')
+        .where({ id: id })
+        .update(body)
+        .then((finalDoc) => {
+          console.log(finalDoc);
           callback(null, finalDoc);
-        }
-      });
-    }
-  });
+        })
+        .catch((updateErr) => {
+          callback(updateErr);
+        });
+    })
+    .catch((err) => {
+      callback(err);
+    });
 };
 
 const deleteHome = (id, callback) => {
-  Home.remove({ _id: id }, (err, count) => {
-    if (err) {
+  knex('homes')
+    .where({ id: id })
+    .del()
+    .then((res) => {
+      console.log(res);
+      if (res === 0) {
+        callback({ message: 'This object does not exist.' });
+      } else {
+        callback(null);
+      }
+    })
+    .catch((err) => {
       callback(err);
-    } else if (count.n === 0) {
-      callback({ message: 'This object does not exist.' });
-    } else {
-      callback(null);
-    }
-  });
+    });
 };
 
 // purely for mongo script
