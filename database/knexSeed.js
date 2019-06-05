@@ -1,12 +1,4 @@
-const knex = require('knex')({
-  client: 'pg',
-  connection: {
-    host: '127.0.0.1',
-    user: 'sdc',
-    password: 'dragonstone',
-    database: 'homes'
-  }
-});
+
 const faker = require('faker');
 const sampleData = require('./sampleData.js');
 const db = require('./index.js');

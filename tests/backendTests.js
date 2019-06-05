@@ -4,25 +4,7 @@ const should = require('chai').should();
 
 chai.use(chaiHttp);
 
-const mongoose = require('mongoose');
-const faker = require('faker');
 const server = require('../server/index.js');
-const db = require('../database/index.js');
-const seedDb = require('../database/seedingDb.js');
-
-mongoose.connect('mongodb://localhost/morehomes', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
-
-const ModelSample = mongoose.model('ModelSample', db.homeSchema);
-
-const sampleHome = new ModelSample({
-  pictureUrl: 'https://samplepic.com',
-  typeOfHome: `entire ${faker.lorem.word()}`,
-  city: faker.address.city(),
-  description: faker.random.words(3),
-  price: faker.random.number({ min: 35, max: 150 }),
-  rating: 'https://s3-us-west-1.amazonaws.com/mashbnb/Stars/Screen+Shot+2019-04-07+at+11.00.17+AM.png',
-  reviews: faker.random.number({ min: 20, max: 50 })
-});
 
 describe('GET request to /', () => {
   it('should return response status code 200', (done) => {

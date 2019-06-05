@@ -1,31 +1,17 @@
-const mongoose = require('mongoose');
+const knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host: '127.0.0.1',
+    user: 'sdc',
+    password: 'dragonstone',
+    database: 'homes'
+  }
+});
+
+// in the middle of a rewrite
+
 const faker = require('faker');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
 const sampleData = require('./sampleData');
-
-mongoose.connect('mongodb://localhost/morehomes', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
-
-const homeSchema = new mongoose.Schema({
-  _id: Number,
-  pictureUrl: String,
-  typeOfHome: String,
-  city: String,
-  description: String,
-  price: Number,
-  rating: String,
-  reviews: Number
-}, { _id: false });
-
-// for script ONLY
-const counterSchema = new mongoose.Schema({
-  id: String,
-  seq: Number
-}, { collection: 'counters' });
-
-homeSchema.plugin(AutoIncrement, { id: 'home_counter', inc_field: '_id' });
-
-const Home = mongoose.model('Home', homeSchema);
-const Counter = mongoose.model('counter', counterSchema);
 
 function getRandomId(min, max) {
   const minId = Math.ceil(min);
@@ -60,62 +46,104 @@ function readAll(callback) {
 }
 
 function getOneHomeById(id, callback) {
-  Home.findById(id, callback);
+  knex
+    .from('homes')
+    .where({ id: id })
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const getTwelveHomes = (id, callback) => {
+  knex
+    .from('homes')
+    .where('id', '>=', id)
+    .andWhere('id', '<', id + 12)
+    .limit(12)
+    .then((res) => {
+      if (res.length < 12) { // promise hell?
+        knex
+          .from('homes')
+          .where('id', '>', 0)
+          .limit(12 - res.length)
+          .then((res2) => {
+            const finalRes = res.concat(res2);
+            callback(null, finalRes);
+          })
+          .catch((err) => {
+            callback(err);
+          });
+      } else {
+        callback(null, res);
+      }
+    })
+    .catch((err) => {
+      callback(err);
+    });
 }
 
 const createHome = (body, callback) => {
   const houseStats = { ...body };
-
-  // add "server" stuff
   houseStats.rating = sampleData.stars[getRandomId(0, 1)];
   houseStats.reviews = faker.random.number({ min: 20, max: 50 });
 
-  const house = new Home(houseStats);
-
-  house.save((err, home) => {
-    if (err) {
-      console.log(err);
+  knex('homes')
+    .insert(houseStats)
+    .then((res) => {
+      console.log(res);
+      callback(null, res);
+    })
+    .catch((err) => {
       callback(err);
-    } else {
-      callback(null, home);
-    }
-  });
+    });
 };
 
 const updateHome = (id, body, callback) => {
-  Home.findOne({ _id: id }, (err, doc) => {
-    if (err) {
-      callback(err);
-    } else if (doc === null) {
-      callback({ message: 'This object does not exist. Please POST to create the object.' });
-    } else {
-      const keys = Object.keys(body);
-      let key;
-      for (let i = 0; i < keys.length; i += 1) {
-        key = keys[i];
-        doc[key] = body[key];
+  knex
+    .from('homes')
+    .where({ id: id })
+    .then((doc) => {
+      if (doc.length === 0) {
+        callback({ message: 'This object does not exist. Please POST to create the object.' });
+      } else {
+        return doc;
       }
-      doc.save((saveErr, finalDoc) => {
-        if (saveErr) {
-          callback(err);
-        } else {
+    })
+    .then(() => {
+      knex('homes')
+        .where({ id: id })
+        .update(body)
+        .then((finalDoc) => {
+          console.log(finalDoc);
           callback(null, finalDoc);
-        }
-      });
-    }
-  });
+        })
+        .catch((updateErr) => {
+          callback(updateErr);
+        });
+    })
+    .catch((err) => {
+      callback(err);
+    });
 };
 
 const deleteHome = (id, callback) => {
-  Home.remove({ _id: id }, (err, count) => {
-    if (err) {
+  knex('homes')
+    .where({ id: id })
+    .del()
+    .then((res) => {
+      console.log(res);
+      if (res === 0) {
+        callback({ message: 'This object does not exist.' });
+      } else {
+        callback(null);
+      }
+    })
+    .catch((err) => {
       callback(err);
-    } else if (count.n === 0) {
-      callback({ message: 'This object does not exist.' });
-    } else {
-      callback(null);
-    }
-  });
+    });
 };
 
 // purely for mongo script
@@ -137,15 +165,14 @@ const overrideCounter = (callback) => {
 };
 
 module.exports = {
-  homeSchema,
   assignUrl,
   saveHome,
   readAll,
   getOneHomeById,
-  Home,
   createHome,
   updateHome,
   deleteHome,
   getRandomId,
-  overrideCounter
+  overrideCounter,
+  getTwelveHomes
 };
