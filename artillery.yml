@@ -1,0 +1,23 @@
+config:
+  target: 'http://localhost:3000'
+  http:
+    pool: 100000
+  phases:
+    - duration: 60
+      arrivalRate: 1000
+scenarios:
+  - name: "get"
+    flow:
+      - get:
+          url: '/home/{{ $randomNumber(900000, 10000000) }}'
+  - name: "post"
+    flow:
+      - post:
+          url: '/home/'
+          json:
+            pictureUrl: 'https://s3.us-east-2.amazonaws.com/elasticbeanstalk-us-east-2-500188952591/mashbnb/tiny-house-for-sale-nashville-tn-airbnb-cute-button.jpg'
+            typeOfHome: '{{ $randomString() }}'
+            city: '{{ $randomString() }}'
+            description: '{{ $randomString() }}'
+            price: 100
+
