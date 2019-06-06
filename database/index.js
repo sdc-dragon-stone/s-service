@@ -93,7 +93,6 @@ const createHome = (body, callback) => {
   knex('homes')
     .insert(houseStats)
     .then((res) => {
-      console.log(res);
       callback(null, res);
     })
     .catch((err) => {
