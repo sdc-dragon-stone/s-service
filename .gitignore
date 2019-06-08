@@ -26,3 +26,4 @@ dist/
 
 public/bundle.js
 newrelic.js
+*.env
