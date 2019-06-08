@@ -78,7 +78,7 @@ app.delete('/home/:id', (req, res) => {
 });
 
 app.get('/loaderio-87a0cfe124f3907031bb40270f06c964/', (req, res) => {
-  res.send(process.env.LOADER);
+  res.sendFile(__dirname + '/loaderio-87a0cfe124f3907031bb40270f06c964.txt');
 });
 
 module.exports = app.listen(port, console.log(`listening on port ${port}`));
