@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const db = require('../database/index.js');
 const validation = require('../middleware/objectValidation.js');
+const logger = require('./winston.js');
 
 const app = express();
 const port = 3000;
@@ -36,6 +37,7 @@ app.get('/morehomes', (req, res) => {
 
 // part below for SDC
 app.get('/home/:id', (req, res) => {
+  logger.log('info', `get route for id ${req.params.id}`, { tags: 'get,request' });
   db.getOneHomeById(req.params.id, (err, home) => {
     if (err) {
       res.status(500).send(err);
@@ -48,6 +50,7 @@ app.get('/home/:id', (req, res) => {
 });
 
 app.post('/home', validation.objectValidation, validation.postValidation, (req, res) => {
+  logger.log('info', 'post route', { tags: 'post,request' });
   db.createHome(req.body, (err, home) => {
     if (err) {
       res.status(500).send(err);
