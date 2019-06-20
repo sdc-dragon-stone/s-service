@@ -1,5 +1,5 @@
 const winston = require('winston');
-// CloudWatchTransport = require('winston-aws-cloudwatch');
+const CloudWatchTransport = require('winston-aws-cloudwatch');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
