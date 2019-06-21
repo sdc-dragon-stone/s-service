@@ -40,8 +40,10 @@ app.get('/home/:id', (req, res) => {
   logger.log('info', `get route for id ${req.params.id}`, { tags: 'get,request' });
   db.getOneHomeById(req.params.id, (err, home) => {
     if (err) {
+      logger.log('error', err, { tags: 'get,request' });
       res.status(500).send(err);
     } else if (home === null) {
+      logger.log('error', 'This object does not exist', { tags: 'get,request' });
       res.status(404).send({ message: 'This object does not exist' });
     } else {
       res.status(200).send(home);
@@ -53,6 +55,7 @@ app.post('/home', validation.objectValidation, validation.postValidation, (req, 
   logger.log('info', 'post route', { tags: 'post,request' });
   db.createHome(req.body, (err, home) => {
     if (err) {
+      logger.log('error', err, { tags: 'post,request' });
       res.status(500).send(err);
     } else {
       res.status(201).send(home);
@@ -61,7 +64,7 @@ app.post('/home', validation.objectValidation, validation.postValidation, (req, 
 });
 
 app.put('/home/:id', validation.objectValidation, validation.putValidation, (req, res) => {
-  db.updateHome(req.params.id, req.body, (err, doc) => {
+  db.updateHome(req.params.id, req.body, (err) => {
     if (err) {
       res.status(400).send(err);
     } else {
