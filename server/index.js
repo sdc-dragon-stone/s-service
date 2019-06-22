@@ -6,6 +6,7 @@ const path = require('path');
 const db = require('../database/index.js');
 const validation = require('../middleware/objectValidation.js');
 const logger = require('./winston.js');
+const redis = require('../redis/index.js');
 
 const app = express();
 const port = 3000;
@@ -38,15 +39,28 @@ app.get('/morehomes', (req, res) => {
 // part below for SDC
 app.get('/home/:id', (req, res) => {
   logger.log('info', `get route for id ${req.params.id}`, { tags: 'get,request' });
-  db.getOneHomeById(req.params.id, (err, home) => {
-    if (err) {
-      logger.log('error', err, { tags: 'get,request' });
-      res.status(500).send(err);
-    } else if (home === null) {
-      logger.log('error', 'This object does not exist', { tags: 'get,request' });
-      res.status(404).send({ message: 'This object does not exist' });
+  redis.getRecord(req.params.id, (err, reply) => {
+    if (reply) {
+      console.log('redis success');
+      const redisHome = JSON.parse(reply);
+      res.status(200).send(redisHome[0]);
     } else {
-      res.status(200).send(home);
+      console.log('not redis');
+      db.getOneHomeById(req.params.id, (err, home) => {
+        if (err) {
+          logger.log('error', err, { tags: 'get,request' });
+          res.status(500).send(err);
+        } else if (home === null) {
+          logger.log('error', 'This object does not exist', { tags: 'get,request' });
+          res.status(404).send({ message: 'This object does not exist' });
+        } else {
+          redis.setRecord(req.params.id, JSON.stringify(home), (err, reply) => {
+            console.log('redis stored', reply);
+            if (err) { console.log(err); }
+            res.status(200).send(home[0]);
+          })
+        }
+      });
     }
   });
 });
